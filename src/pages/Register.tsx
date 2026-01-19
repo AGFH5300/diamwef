@@ -325,7 +325,7 @@ const Register = () => {
                 <ul className="space-y-3 text-sm">
                   <li className="flex justify-between">
                     <span className="text-white/70">Conference Date</span>
-                    <span className="font-medium">21 Feb 2027</span>
+                    <span className="font-medium">21 Feb 2026</span>
                   </li>
                   <li className="flex justify-between">
                     <span className="text-white/70">Registration Deadline</span>

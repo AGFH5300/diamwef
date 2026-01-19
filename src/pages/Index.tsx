@@ -8,7 +8,7 @@ import { CommitteeCard } from '@/components/cards/CommitteeCard';
 import { committees } from '@/data/committees';
 import heroBg from '@/assets/hero-bg.jpg';
 
-const conferenceDate = new Date('2027-02-21T09:00:00');
+const conferenceDate = new Date('2026-02-21T09:00:00');
 
 const features = [
   {
@@ -168,7 +168,7 @@ const Index = () => {
               <Calendar className="text-accent" size={24} />
               <div>
                 <p className="text-sm text-white/70">Date</p>
-                <p className="font-semibold">21st February 2027</p>
+                <p className="font-semibold">21st February 2026</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
