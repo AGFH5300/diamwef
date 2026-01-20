@@ -2,8 +2,6 @@ import { motion } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { TeamMemberCard } from '@/components/cards/TeamMemberCard';
-import { leadershipTeam, executiveTeam } from '@/data/team';
 
 const About = () => {
   return (
@@ -13,7 +11,6 @@ const About = () => {
         subtitle="Welcome to the Model World Economic Forum — Dubai's premier economics simulation conference."
       />
 
-      {/* Welcome Section */}
       <section className="py-20 md:py-28 bg-background">
         <div className="section-container">
           <div className="max-w-4xl">
@@ -33,23 +30,13 @@ const About = () => {
         </div>
       </section>
 
-      {/* Mission Section */}
       <section className="py-20 bg-secondary">
         <div className="section-container">
           <div className="grid lg:grid-cols-3 gap-8">
             {[
-              {
-                title: 'Our Mission',
-                content: 'To cultivate the next generation of economic leaders by providing a platform for rigorous debate, policy analysis, and strategic thinking on global economic challenges.',
-              },
-              {
-                title: 'Our Vision',
-                content: 'To become the leading economics simulation conference in the region, recognized for academic excellence, professional standards, and meaningful delegate experiences.',
-              },
-              {
-                title: 'Our Values',
-                content: 'Academic rigor, evidence-based reasoning, inclusive participation, global perspective, and commitment to understanding complex economic trade-offs.',
-              },
+              { title: 'Our Mission', content: 'To cultivate the next generation of economic leaders by providing a platform for rigorous debate, policy analysis, and strategic thinking on global economic challenges.' },
+              { title: 'Our Vision', content: 'To become the leading economics simulation conference in the region, recognized for academic excellence, professional standards, and meaningful delegate experiences.' },
+              { title: 'Our Values', content: 'Academic rigor, evidence-based reasoning, inclusive participation, global perspective, and commitment to understanding complex economic trade-offs.' },
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -69,59 +56,9 @@ const About = () => {
         </div>
       </section>
 
-      {/* Secretariat Team */}
-      <section className="py-20 md:py-28 bg-background">
-        <div className="section-container">
-          <SectionHeader
-            title="Secretariat Team"
-            subtitle="Meet the leadership team behind the Model World Economic Forum."
-            center
-          />
-
-          {/* Leadership */}
-          <div className="mb-16">
-            <h3 className="text-xl font-semibold text-center text-foreground mb-8">Leadership</h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-3xl mx-auto">
-              {leadershipTeam.map((member, index) => (
-                <TeamMemberCard
-                  key={index}
-                  name={member.name}
-                  role={member.role}
-                  image={member.image}
-                  index={index}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Executive Team */}
-          <div>
-            <h3 className="text-xl font-semibold text-center text-foreground mb-8">Executive Team</h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {executiveTeam.map((member, index) => (
-                <TeamMemberCard
-                  key={index}
-                  name={member.name}
-                  role={member.role}
-                  image={member.image}
-                  index={index}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why MWEF */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="section-container">
-          <SectionHeader
-            title="Why MWEF?"
-            subtitle="What sets the Model World Economic Forum apart from other academic competitions."
-            center
-            light
-          />
-
+          <SectionHeader title="Why MWEF?" subtitle="What sets the Model World Economic Forum apart from other academic competitions." center light />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { title: 'Real-World Relevance', desc: 'Engage with actual global economic challenges faced by policymakers and institutions.' },
