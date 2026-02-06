@@ -8,7 +8,6 @@ import {
   Flag,
   LogOut,
   RefreshCcw,
-  Shield,
   Users,
   ClipboardList,
   Building2,
@@ -224,7 +223,6 @@ const SystemDashboard = () => {
           style={{ boxShadow: "var(--shadow-card)" }}
         >
           <div className="flex items-center gap-3 mb-4">
-            <Shield className="text-destructive" size={26} />
             <div>
               <h1 className="text-xl font-semibold text-foreground">Unauthorized access</h1>
               <p className="text-sm text-muted-foreground">
@@ -245,7 +243,6 @@ const SystemDashboard = () => {
       <header className="border-b border-border bg-card">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Shield className="text-accent" size={24} />
             <div>
               <h1 className="text-xl font-semibold text-foreground">System Console</h1>
               <p className="text-xs text-muted-foreground">Signed in as {userEmail}</p>
