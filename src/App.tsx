@@ -1,4 +1,3 @@
-// src/App.tsx
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -35,6 +34,7 @@ import AdminProposals from "./pages/admin/AdminProposals";
 
 import SystemLogin from "./pages/system/SystemLogin";
 import SystemDashboard from "./pages/system/SystemDashboard";
+
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -51,7 +51,6 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/about/conference" element={<AboutConference />} />
           <Route path="/about/secretariat" element={<AboutSecretariat />} />
-
           <Route path="/resources" element={<Resources />} />
           <Route path="/resources/committees" element={<Committees />} />
           <Route path="/resources/committees/:id" element={<CommitteeDetail />} />
@@ -65,8 +64,8 @@ const App = () => (
           <Route path="/committees/:id" element={<CommitteeDetail />} />
           <Route path="/countries" element={<Countries />} />
           <Route path="/conference" element={<Conference />} />
-
           <Route path="/get-involved" element={<GetInvolved />} />
+
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -82,6 +81,7 @@ const App = () => (
             <Route path="settings" element={<AdminSettings />} />
           </Route>
 
+          {/* System */}
           <Route path="/system/login" element={<SystemLogin />} />
           <Route path="/system" element={<SystemDashboard />} />
 
