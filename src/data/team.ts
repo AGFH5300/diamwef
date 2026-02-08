@@ -11,12 +11,18 @@ export const leadershipTeam: TeamMember[] = [
 ];
 
 export const executiveTeam: TeamMember[] = [
-  { name: 'TBA', role: 'Head of Events', image: '/placeholder.svg' },
-  { name: 'TBA', role: 'Deputy Head of Events', image: '/placeholder.svg' },
-  { name: 'TBA', role: 'Head of Media', image: '/placeholder.svg' },
-  { name: 'TBA', role: 'Deputy Head of Media', image: '/placeholder.svg' },
-  { name: 'TBA', role: 'Head of Finance', image: '/placeholder.svg' },
-  { name: 'TBA', role: 'Head of Logistics', image: '/placeholder.svg' },
+  { name: 'Ananya Makin', role: 'Head of Events', image: '/placeholder.svg' },
+  { name: 'Yuvraj Dewan', role: 'Deputy Head of Events', image: '/placeholder.svg' },
+  { name: 'Mahi Bhatia', role: 'Deputy Head of Events', image: '/placeholder.svg' },
+  { name: 'Sanaya Mithaiwala', role: 'Head of Media', image: '/placeholder.svg' },
+  { name: 'Yingxuan Cha', role: 'Deputy Head of Media', image: '/placeholder.svg' },
+  { name: 'Khyati Anandita', role: 'Deputy Head of Media', image: '/placeholder.svg' },
+  { name: 'Marina Sapyrgina', role: 'Deputy Head of Media', image: '/placeholder.svg' },
+  { name: 'Shivank Mishra', role: 'Head of Teaching', image: '/placeholder.svg' },
+  { name: 'Pranav Verma', role: 'Deputy Head of Teaching', image: '/placeholder.svg' },
+  { name: 'Alman Bazaz', role: 'Deputy Head of Teaching', image: '/placeholder.svg' },
+  { name: 'Swasti Rai', role: 'Deputy Head of Teaching', image: '/placeholder.svg' },
+  { name: 'Ansh Gupta', role: 'Head of Technology', image: '/placeholder.svg' },
 ];
 
 // Combined list for carousel display
