@@ -8,7 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { User, School, Globe, BookOpen, CreditCard, CheckCircle, ArrowRight, Lock, Eye, EyeOff } from 'lucide-react';
 import { committees } from '@/data/committees';
-import { allCountries, institutions } from '@/data/countries';
+import { allCountries, countryCodeByName, institutions } from '@/data/countries';
 
 const countryCodeToFlagUrl = (code: string) =>
   `https://flagcdn.com/w40/${code.toLowerCase()}.png`;
@@ -85,11 +85,22 @@ const Register = () => {
     }
 
     return allCountries
-      .map((country) => ({
-        value: country,
-        label: country,
-        searchValue: country,
-      }))
+      .map((country) => {
+        const code = countryCodeByName[country];
+        return {
+          value: country,
+          label: country,
+          icon: code ? (
+            <img
+              src={countryCodeToFlagUrl(code)}
+              alt={`${country} flag`}
+              className="h-4 w-6 shrink-0 rounded-sm object-cover"
+              loading="lazy"
+            />
+          ) : null,
+          searchValue: code ? `${country} ${code}` : country,
+        };
+      })
       .sort((a, b) => a.label.localeCompare(b.label));
   }, []);
   const institutionOptions = useMemo<SearchableSelectOption[]>(
