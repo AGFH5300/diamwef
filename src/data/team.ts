@@ -11,6 +11,7 @@ export const leadershipTeam: TeamMember[] = [
 ];
 
 export const executiveTeam: TeamMember[] = [
+  { name: 'Ansh Gupta', role: 'Head of Technology', image: '/placeholder.svg' },
   { name: 'Ananya Makin', role: 'Head of Events', image: '/placeholder.svg' },
   { name: 'Yuvraj Dewan', role: 'Deputy Head of Events', image: '/placeholder.svg' },
   { name: 'Mahi Bhatia', role: 'Deputy Head of Events', image: '/placeholder.svg' },
@@ -22,7 +23,6 @@ export const executiveTeam: TeamMember[] = [
   { name: 'Pranav Verma', role: 'Deputy Head of Teaching', image: '/placeholder.svg' },
   { name: 'Alman Bazaz', role: 'Deputy Head of Teaching', image: '/placeholder.svg' },
   { name: 'Swasti Rai', role: 'Deputy Head of Teaching', image: '/placeholder.svg' },
-  { name: 'Ansh Gupta', role: 'Head of Technology', image: '/placeholder.svg' },
 ];
 
 // Combined list for carousel display
