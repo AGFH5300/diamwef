@@ -19,14 +19,14 @@ export const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
     const calculateTimeLeft = () => {
       const difference = targetDate.getTime() - new Date().getTime();
       
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
-        });
-      }
+      const safeDifference = Math.max(0, difference);
+
+      setTimeLeft({
+        days: Math.floor(safeDifference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((safeDifference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((safeDifference / 1000 / 60) % 60),
+        seconds: Math.floor((safeDifference / 1000) % 60),
+      });
     };
 
     calculateTimeLeft();

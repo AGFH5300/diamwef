@@ -1,9 +1,8 @@
-import { motion } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { TeamMemberCard } from '@/components/cards/TeamMemberCard';
-import { leadershipTeam, executiveTeam } from '@/data/team';
+import { leadershipTeam, executiveChairs, coreTeam } from '@/data/team';
 
 const AboutSecretariat = () => {
   return (
@@ -11,10 +10,10 @@ const AboutSecretariat = () => {
       <PageHeader title="Secretariat Team" subtitle="Meet the leadership team behind the Model World Economic Forum." />
 
       <section className="py-20 md:py-28 bg-background">
-        <div className="section-container">
-          <div className="mb-16">
-            <SectionHeader title="Leadership" subtitle="The founding team driving MWEF's vision and mission." center />
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-3xl mx-auto">
+        <div className="section-container space-y-16">
+          <div>
+            <SectionHeader title="Leadership" subtitle="The presidents and leadership team guiding MWEF's direction." center />
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {leadershipTeam.map((member, index) => (
                 <TeamMemberCard key={index} name={member.name} role={member.role} image={member.image} index={index} />
               ))}
@@ -22,9 +21,18 @@ const AboutSecretariat = () => {
           </div>
 
           <div>
-            <SectionHeader title="Executive Team" subtitle="The dedicated team members executing MWEF's operations." center />
+            <SectionHeader title="Executive Chairs" subtitle="Committee chairs and executive chairs (placeholder entries until final list from Jash)." center />
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {executiveChairs.map((member, index) => (
+                <TeamMemberCard key={index} name={member.name} role={member.role} image={member.image} index={index} />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <SectionHeader title="Core Team" subtitle="The dedicated team members executing MWEF operations." center />
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {executiveTeam.map((member, index) => (
+              {coreTeam.map((member, index) => (
                 <TeamMemberCard key={index} name={member.name} role={member.role} image={member.image} index={index} />
               ))}
             </div>

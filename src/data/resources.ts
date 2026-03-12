@@ -1,35 +1,48 @@
-export interface Resource {
+import { committees } from './committees';
+
+export type ResourceStatus = 'available' | 'coming_soon';
+
+export interface ResourceItem {
+  id: string;
   title: string;
   description: string;
-  fileType: string;
-  url?: string;
+  category: 'conference-doc' | 'background-guide' | 'general-link';
+  committeeKey?: string;
+  fileType?: string;
+  link?: string;
+  status: ResourceStatus;
 }
 
 const resourceBaseUrl = 'https://modelwef.org/resources/pdfs';
 
-export const participantResources: Resource[] = [
+export const participantResources: ResourceItem[] = [
   {
+    id: 'rules',
     title: 'Conference Rules',
-    description: 'Complete rules and procedures for the MWEF conference, including debate formats and scoring criteria.',
+    description: 'Complete rules and procedures for MWEF conference participation.',
+    category: 'conference-doc',
     fileType: 'PDF',
-    url: `${resourceBaseUrl}/conference-rules.pdf`,
+    link: `${resourceBaseUrl}/conference-rules.pdf`,
+    status: 'coming_soon',
   },
   {
-    title: 'Debate Handbook',
-    description: 'Comprehensive guide to effective debate techniques, argumentation strategies, and economic reasoning.',
-    fileType: 'PDF',
-    url: `${resourceBaseUrl}/debate-handbook.pdf`,
-  },
-  {
+    id: 'policy-handbook',
     title: 'Solution & Policy Handbook',
-    description: 'Framework for developing and presenting economic policy proposals with real-world applicability.',
+    description: 'Framework for developing and presenting policy proposals.',
+    category: 'conference-doc',
     fileType: 'PDF',
-    url: `${resourceBaseUrl}/solution-policy-handbook.pdf`,
-  },
-  {
-    title: 'Code of Conduct & Procedures',
-    description: 'Behavioral expectations, dress code, and procedural guidelines for all participants.',
-    fileType: 'PDF',
-    url: `${resourceBaseUrl}/code-of-conduct.pdf`,
+    link: `${resourceBaseUrl}/solution-policy-handbook.pdf`,
+    status: 'coming_soon',
   },
 ];
+
+export const committeeBackgroundGuides: ResourceItem[] = committees.map((committee) => ({
+  id: `guide-${committee.id}`,
+  title: `${committee.abbreviation} Background Guide`,
+  description: `Background guide for ${committee.name}.`,
+  category: 'background-guide',
+  committeeKey: committee.id,
+  fileType: 'PDF',
+  link: '',
+  status: 'coming_soon',
+}));

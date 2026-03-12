@@ -64,7 +64,7 @@ const Conference = () => {
             >
               <Clock className="text-accent mx-auto mb-3" size={32} />
               <h3 className="font-semibold text-foreground mb-1">Date</h3>
-              <p className="text-2xl font-bold text-primary">21st February</p>
+              <p className="text-2xl font-bold text-primary">11th April</p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}

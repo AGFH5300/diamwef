@@ -39,7 +39,7 @@ const AboutConference = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card border border-border rounded-lg p-6 text-center" style={{ boxShadow: 'var(--shadow-card)' }}>
               <Clock className="text-accent mx-auto mb-3" size={32} />
               <h3 className="font-semibold text-foreground mb-1">Date</h3>
-              <p className="text-2xl font-bold text-primary">21st February 2026</p>
+              <p className="text-2xl font-bold text-primary">11th April 2026</p>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="bg-card border border-border rounded-lg p-6 text-center" style={{ boxShadow: 'var(--shadow-card)' }}>
               <Users className="text-accent mx-auto mb-3" size={32} />

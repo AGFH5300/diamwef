@@ -1,16 +1,22 @@
 export interface TeamMember {
   name: string;
   role: string;
-  image?: string;
+  image: string;
 }
 
 export const leadershipTeam: TeamMember[] = [
-  { name: 'Yuvraj Bharadia', role: 'President', image: '/Yuvraj_Bharadia.jpeg' },
   { name: 'Jash Jain', role: 'President', image: '/Jash_Jain.jpeg' },
-  { name: 'Tara Vishwakarthik', role: 'Vice President', image: '/Tara_Vishwakarthik.jpeg' },
+  { name: 'Tara Vishwakarthik', role: 'President', image: '/Tara_Vishwakarthik.jpeg' },
+  { name: 'Adit (TBC)', role: 'President', image: '/placeholder.svg' },
 ];
 
-export const executiveTeam: TeamMember[] = [
+export const executiveChairs: TeamMember[] = [
+  { name: 'Executive Chair Placeholder 1', role: 'Executive Chair', image: '/placeholder.svg' },
+  { name: 'Executive Chair Placeholder 2', role: 'Executive Chair', image: '/placeholder.svg' },
+  { name: 'Executive Chair Placeholder 3', role: 'Executive Chair', image: '/placeholder.svg' },
+];
+
+export const coreTeam: TeamMember[] = [
   { name: 'Ansh Gupta', role: 'Head of Technology', image: '/Ansh_Gupta.jpg' },
   { name: 'Ananya Makin', role: 'Head of Events', image: '/Ananya_Makin.jpeg' },
   { name: 'Yuvraj Dewan', role: 'Deputy Head of Events', image: '/Yuvraj_Dewan.jpeg' },
@@ -25,8 +31,4 @@ export const executiveTeam: TeamMember[] = [
   { name: 'Swasti Rai', role: 'Deputy Head of Teaching', image: '/Swasti_Rai.jpg' },
 ];
 
-// Combined list for carousel display
-export const allSecretariat: TeamMember[] = [
-  ...leadershipTeam,
-  ...executiveTeam,
-];
+export const allSecretariat: TeamMember[] = [...leadershipTeam, ...executiveChairs, ...coreTeam];

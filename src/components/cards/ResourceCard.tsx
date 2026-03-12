@@ -8,9 +8,10 @@ interface ResourceCardProps {
   description: string;
   index: number;
   url?: string;
+  status?: 'available' | 'coming_soon';
 }
 
-export const ResourceCard = ({ title, description, index, url }: ResourceCardProps) => {
+export const ResourceCard = ({ title, description, index, url, status = 'available' }: ResourceCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -23,12 +24,13 @@ export const ResourceCard = ({ title, description, index, url }: ResourceCardPro
         <FileText className="text-accent" size={24} />
       </div>
       <div className="flex-1">
-        <h4 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
-          {title}
-        </h4>
+        <h4 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{title}</h4>
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
-      <ResourceDownloadButton url={url} />
+      <ResourceDownloadButton
+        url={status === 'available' ? url : undefined}
+        disabledLabel={status === 'coming_soon' ? 'Coming Soon' : 'Unavailable'}
+      />
     </motion.div>
   );
 };

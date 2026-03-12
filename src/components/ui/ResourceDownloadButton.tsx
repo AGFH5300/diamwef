@@ -7,6 +7,7 @@ interface ResourceDownloadButtonProps {
   label?: string;
   variant?: 'default' | 'primary' | 'outline';
   className?: string;
+  disabledLabel?: string;
 }
 
 export const ResourceDownloadButton = ({
@@ -14,12 +15,9 @@ export const ResourceDownloadButton = ({
   label = 'PDF',
   variant = 'default',
   className = '',
+  disabledLabel = 'Coming Soon',
 }: ResourceDownloadButtonProps) => {
   const isAvailable = useResourceAvailability(url);
-
-  if (!url || !isAvailable) {
-    return null;
-  }
 
   const variantClasses = {
     default:
@@ -28,13 +26,16 @@ export const ResourceDownloadButton = ({
     outline: 'btn-outline flex items-center gap-2',
   };
 
+  if (!url || !isAvailable) {
+    return (
+      <span className="flex-shrink-0 px-3 py-2 border border-dashed border-border rounded-md text-xs font-medium text-muted-foreground">
+        {disabledLabel}
+      </span>
+    );
+  }
+
   return (
-    <a
-      href={url}
-      className={`${variantClasses[variant]} ${className}`}
-      target="_blank"
-      rel="noreferrer"
-    >
+    <a href={url} className={`${variantClasses[variant]} ${className}`} target="_blank" rel="noreferrer">
       <Download size={16} className="inline mr-1" />
       {label}
     </a>

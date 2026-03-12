@@ -2,26 +2,20 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Search, Filter, Edit, Check, X, Users } from 'lucide-react';
+import { Search, Edit, Check, X, Users } from 'lucide-react';
 import { committees } from '@/data/committees';
-import { allCountries, institutions } from '@/data/countries';
 
 interface Participant {
   id: string;
   email: string;
   first_name: string;
   last_name: string;
-  delegation_type: string;
   preferred_country: string | null;
   preferred_institution: string | null;
-  committee_preference: string | null;
   assigned_country: string | null;
   assigned_institution: string | null;
   assigned_committee: string | null;
   status: string;
-  payment_status: string | null;
-  notes: string | null;
-  created_at: string;
 }
 
 const AdminParticipants = () => {
@@ -30,217 +24,33 @@ const AdminParticipants = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState({
-    assigned_country: '',
-    assigned_institution: '',
-    assigned_committee: '',
-    status: 'pending' as 'pending' | 'approved' | 'rejected' | 'waitlist',
-    payment_status: '',
-  });
+  const [editForm, setEditForm] = useState({ assigned_committee: '', assigned_country: '', assigned_institution: '', status: 'pending' });
 
   const fetchParticipants = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('participant_registrations')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching participants:', error);
-      toast.error('Failed to fetch participants');
-    } else {
-      setParticipants(data || []);
-    }
+    const { data, error } = await supabase.from('participant_registrations').select('*').order('created_at', { ascending: false });
+    if (error) toast.error('Failed to fetch participants'); else setParticipants((data || []) as Participant[]);
     setLoading(false);
   };
 
-  useEffect(() => {
-    fetchParticipants();
-  }, []);
-
-  const handleEdit = (participant: Participant) => {
-    setEditingId(participant.id);
-    setEditForm({
-      assigned_country: participant.assigned_country || '',
-      assigned_institution: participant.assigned_institution || '',
-      assigned_committee: participant.assigned_committee || '',
-      status: participant.status as 'pending' | 'approved' | 'rejected' | 'waitlist',
-      payment_status: participant.payment_status || '',
-    });
-  };
+  useEffect(() => { void fetchParticipants(); }, []);
 
   const handleSave = async (id: string) => {
-    const { error } = await supabase
-      .from('participant_registrations')
-      .update({
-        assigned_country: editForm.assigned_country || null,
-        assigned_institution: editForm.assigned_institution || null,
-        assigned_committee: editForm.assigned_committee || null,
-        status: editForm.status,
-        payment_status: editForm.payment_status || null,
-      })
-      .eq('id', id);
-
-    if (error) {
-      toast.error('Failed to update participant');
-    } else {
-      toast.success('Participant updated successfully');
-      setEditingId(null);
-      fetchParticipants();
-    }
+    const { error } = await supabase.from('participant_registrations').update({ assigned_country: editForm.assigned_country || null, assigned_institution: editForm.assigned_institution || null, assigned_committee: editForm.assigned_committee || null, status: editForm.status }).eq('id', id);
+    if (error) toast.error('Failed to update participant'); else { toast.success('Participant updated'); setEditingId(null); void fetchParticipants(); }
   };
 
-  const filteredParticipants = participants.filter(participant => {
-    const normalizedSearch = searchTerm.trim().toLowerCase();
-    const participantName = `${participant.first_name} ${participant.last_name}`.trim().toLowerCase();
-    const matchesSearch = !normalizedSearch
-      || participant.email.toLowerCase().includes(normalizedSearch)
-      || participantName.includes(normalizedSearch);
-    const matchesStatus = statusFilter === 'all' || participant.status === statusFilter;
-    return matchesSearch && matchesStatus;
+  const filtered = participants.filter((p) => {
+    const q = searchTerm.toLowerCase();
+    return (!q || `${p.first_name} ${p.last_name}`.toLowerCase().includes(q) || p.email.toLowerCase().includes(q)) && (statusFilter === 'all' || p.status === statusFilter);
   });
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'approved': return 'bg-accent/20 text-accent';
-      case 'pending': return 'bg-accent/10 text-foreground';
-      case 'rejected': return 'bg-destructive/20 text-destructive';
-      case 'waitlist': return 'bg-primary/20 text-primary';
-      default: return 'bg-muted text-muted-foreground';
-    }
-  };
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-foreground">Participant Registrations</h2>
-          <p className="text-muted-foreground">Manage and assign delegations to registered participants.</p>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Users size={18} />
-          <span>{participants.length} total participants</span>
-        </div>
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
-          <input
-            type="text"
-            placeholder="Search..."
-            className="form-input pl-10"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <select
-          className="form-input"
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-        >
-          <option value="all">All Status</option>
-          <option value="pending">Pending</option>
-          <option value="approved">Approved</option>
-          <option value="rejected">Rejected</option>
-        </select>
-      </div>
-
+      <div className="flex items-center justify-between"><div><h2 className="text-2xl font-bold">Participant Registrations</h2><p className="text-muted-foreground">Manage participant status and assignments.</p></div><div className="flex items-center gap-2 text-sm text-muted-foreground"><Users size={18} />{participants.length} total</div></div>
+      <div className="flex gap-4"><div className="relative flex-1"><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} /><input className="form-input pl-10" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Search" /></div><select className="form-input" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}><option value="all">All status</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="waitlist">Waitlist</option></select></div>
       <div className="bg-card border border-border rounded-lg overflow-hidden" style={{ boxShadow: 'var(--shadow-card)' }}>
-        {loading ? (
-          <div className="p-8 text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto"></div>
-          </div>
-        ) : filteredParticipants.length === 0 ? (
-          <div className="p-8 text-center text-muted-foreground">No participants found.</div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-secondary">
-                <tr>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-foreground">Participant</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-foreground">Preference</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-foreground">Assignment</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-foreground">Status</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-foreground">Payment</th>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-foreground">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {filteredParticipants.map((participant) => (
-                  <motion.tr key={participant.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="hover:bg-secondary/50">
-                    <td className="px-4 py-4">
-                      <div className="text-sm">
-                        <p className="text-foreground">{participant.first_name} {participant.last_name}</p>
-                        <p className="text-muted-foreground">{participant.email}</p>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="text-sm">
-                        <p className="text-foreground capitalize">{participant.delegation_type}</p>
-                        <p className="text-muted-foreground">
-                          {participant.delegation_type === 'country' ? participant.preferred_country : participant.preferred_institution || '-'}
-                        </p>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4">
-                      {editingId === participant.id ? (
-                        <div className="space-y-2">
-                          <select className="form-input text-sm py-1" value={editForm.assigned_committee} onChange={(e) => setEditForm({ ...editForm, assigned_committee: e.target.value })}>
-                            <option value="">Select Committee</option>
-                            {committees.map(c => <option key={c.id} value={c.abbreviation}>{c.abbreviation}</option>)}
-                          </select>
-                          <select className="form-input text-sm py-1" value={editForm.assigned_country} onChange={(e) => setEditForm({ ...editForm, assigned_country: e.target.value })}>
-                            <option value="">Select Country</option>
-                            {allCountries.map(c => <option key={c} value={c}>{c}</option>)}
-                          </select>
-                        </div>
-                      ) : (
-                        <div className="text-sm">
-                          <p className="text-foreground">{participant.assigned_committee || '-'}</p>
-                          <p className="text-muted-foreground">{participant.assigned_country || participant.assigned_institution || '-'}</p>
-                        </div>
-                      )}
-                    </td>
-                    <td className="px-4 py-4">
-                      {editingId === participant.id ? (
-                        <select className="form-input text-sm py-1" value={editForm.status} onChange={(e) => setEditForm({ ...editForm, status: e.target.value as any })}>
-                          <option value="pending">Pending</option>
-                          <option value="approved">Approved</option>
-                          <option value="rejected">Rejected</option>
-                          <option value="waitlist">Waitlist</option>
-                        </select>
-                      ) : (
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(participant.status)}`}>{participant.status}</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-4">
-                      {editingId === participant.id ? (
-                        <select className="form-input text-sm py-1 capitalize" value={editForm.payment_status} onChange={(e) => setEditForm({ ...editForm, payment_status: e.target.value })}>
-                          <option value="">Select payment</option>
-                          <option value="paid">Paid</option>
-                          <option value="unpaid">Unpaid</option>
-                        </select>
-                      ) : (
-                        <span className="text-sm text-foreground capitalize">{participant.payment_status || 'Pending'}</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-4">
-                      {editingId === participant.id ? (
-                        <div className="flex items-center gap-2">
-                          <button onClick={() => handleSave(participant.id)} className="p-1 text-accent hover:bg-accent/10 rounded"><Check size={18} /></button>
-                          <button onClick={() => setEditingId(null)} className="p-1 text-destructive hover:bg-destructive/10 rounded"><X size={18} /></button>
-                        </div>
-                      ) : (
-                        <button onClick={() => handleEdit(participant)} className="p-1 text-accent hover:bg-accent/10 rounded"><Edit size={18} /></button>
-                      )}
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        {loading ? <div className="p-8 text-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto" /></div> : <div className="overflow-x-auto"><table className="w-full"><thead className="bg-secondary"><tr><th className="px-4 py-3 text-left">Participant</th><th className="px-4 py-3 text-left">Stakeholder</th><th className="px-4 py-3 text-left">Assignment</th><th className="px-4 py-3 text-left">Status</th><th className="px-4 py-3 text-left">Actions</th></tr></thead><tbody className="divide-y divide-border">{filtered.map((p) => <motion.tr key={p.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}><td className="px-4 py-4"><p>{p.first_name} {p.last_name}</p><p className="text-sm text-muted-foreground">{p.email}</p></td><td className="px-4 py-4">{p.preferred_institution || p.preferred_country || '-'}</td><td className="px-4 py-4">{editingId===p.id ? <div className="space-y-2"><select className="form-input text-sm py-1" value={editForm.assigned_committee} onChange={(e)=>setEditForm({...editForm,assigned_committee:e.target.value})}><option value="">Committee</option>{committees.map((c)=><option key={c.id} value={c.abbreviation}>{c.abbreviation}</option>)}</select><input className="form-input text-sm py-1" placeholder="Assigned Stakeholder" value={editForm.assigned_institution || editForm.assigned_country} onChange={(e)=>setEditForm({...editForm,assigned_institution:e.target.value,assigned_country:e.target.value})} /></div> : `${p.assigned_committee || '-'} ${p.assigned_institution || p.assigned_country ? `• ${p.assigned_institution || p.assigned_country}` : ''}`}</td><td className="px-4 py-4">{editingId===p.id ? <select className="form-input text-sm py-1" value={editForm.status} onChange={(e)=>setEditForm({...editForm,status:e.target.value})}><option value="pending">Pending</option><option value="approved">Approved</option><option value="waitlist">Waitlist</option><option value="rejected">Rejected</option></select> : <span className="capitalize">{p.status}</span>}</td><td className="px-4 py-4">{editingId===p.id ? <div className="flex gap-2"><button onClick={()=>handleSave(p.id)} className="p-1 text-accent"><Check size={18}/></button><button onClick={()=>setEditingId(null)} className="p-1 text-destructive"><X size={18}/></button></div> : <button onClick={()=>{setEditingId(p.id);setEditForm({assigned_committee:p.assigned_committee||'',assigned_country:p.assigned_country||'',assigned_institution:p.assigned_institution||'',status:p.status||'pending'})}} className="p-1 text-accent"><Edit size={18}/></button>}</td></motion.tr>)}</tbody></table></div>}
       </div>
     </div>
   );
