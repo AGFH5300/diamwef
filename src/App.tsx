@@ -11,7 +11,6 @@ import AboutConference from "./pages/AboutConference";
 import AboutSecretariat from "./pages/AboutSecretariat";
 import Committees from "./pages/Committees";
 import CommitteeDetail from "./pages/CommitteeDetail";
-import Countries from "./pages/Countries";
 import Conference from "./pages/Conference";
 import Resources from "./pages/Resources";
 import ResourcesPolicyHandbook from "./pages/ResourcesPolicyHandbook";
@@ -53,7 +52,6 @@ const App = () => (
           <Route path="/resources" element={<Resources />} />
           <Route path="/resources/committees" element={<Committees />} />
           <Route path="/resources/committees/:id" element={<CommitteeDetail />} />
-          <Route path="/resources/countries" element={<Countries />} />
           <Route path="/resources/policy-handbook" element={<ResourcesPolicyHandbook />} />
           <Route path="/resources/speaking" element={<ResourcesSpeaking />} />
           <Route path="/resources/rules" element={<ResourcesRules />} />
@@ -61,7 +59,6 @@ const App = () => (
           {/* Legacy routes for backward compatibility */}
           <Route path="/committees" element={<Committees />} />
           <Route path="/committees/:id" element={<CommitteeDetail />} />
-          <Route path="/countries" element={<Countries />} />
           <Route path="/conference" element={<Conference />} />
           <Route path="/get-involved" element={<GetInvolved />} />
 

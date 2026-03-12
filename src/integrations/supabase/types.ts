@@ -74,6 +74,39 @@ export type Database = {
         }
         Relationships: []
       }
+      announcements: {
+        Row: {
+          body: string
+          created_at: string
+          cta_link: string | null
+          id: string
+          is_active: boolean
+          pinned: boolean
+          published_at: string
+          title: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          cta_link?: string | null
+          id?: string
+          is_active?: boolean
+          pinned?: boolean
+          published_at?: string
+          title: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          cta_link?: string | null
+          id?: string
+          is_active?: boolean
+          pinned?: boolean
+          published_at?: string
+          title?: string
+        }
+        Relationships: []
+      }
       participant_password_resets: {
         Row: {
           created_at: string

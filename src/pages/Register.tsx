@@ -1,413 +1,56 @@
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { SearchableSelect, SearchableSelectOption } from '@/components/ui/searchable-select';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { User, School, Globe, BookOpen, CreditCard, CheckCircle, ArrowRight, Lock, Eye, EyeOff } from 'lucide-react';
-import { committees } from '@/data/committees';
-import { institutions } from '@/data/countries';
+import { conferenceConfig } from '@/data/conference';
+import { ExternalLink } from 'lucide-react';
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    school: '',
-    grade: '',
-    delegationType: 'institution',
-    preferredInstitution: '',
-    committeePreference: '',
-    agreeTerms: false,
-  });
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const navigate = useNavigate();
-  const gradeOptions = useMemo<SearchableSelectOption[]>(
-    () =>
-      [
-        'Year 7 / Grade 6',
-        'Year 8 / Grade 7',
-        'Year 9 / Grade 8',
-        'Year 10 / Grade 9',
-        'Year 11 / Grade 10',
-        'Year 12 / Grade 11',
-      ].map((grade) => ({
-        value: grade,
-        label: grade,
-        searchValue: grade,
-      })),
-    [],
-  );
-  const institutionOptions = useMemo<SearchableSelectOption[]>(
-    () =>
-      [...institutions]
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map((inst) => ({
-          value: inst.abbreviation,
-          label: `${inst.name} (${inst.abbreviation})`,
-          searchValue: `${inst.name} ${inst.abbreviation}`,
-        })),
-    [],
-  );
-  const committeeOptions = useMemo<SearchableSelectOption[]>(
-    () =>
-      [...committees]
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map((committee) => ({
-          value: committee.abbreviation,
-          label: `${committee.name} (${committee.abbreviation}) - ${committee.categoryShort}`,
-          searchValue: `${committee.name} ${committee.abbreviation} ${committee.categoryShort}`,
-        })),
-    [],
-  );
-  const splitName = (fullName: string) => {
-    const trimmed = fullName.trim();
-    if (!trimmed) {
-      return { firstName: '', lastName: '' };
-    }
-    const [firstName, ...rest] = trimmed.split(/\s+/);
-    return {
-      firstName,
-      lastName: rest.join(' '),
-    };
-  };
-  const formatRegistrationError = (error: { code?: string; message?: string; details?: string }) => {
-    if (error.code === '23505') {
-      return 'This email is already registered. Please use a different email or log in.';
-    }
-    return error.details || error.message || 'Registration failed. Please try again or contact support.';
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.agreeTerms) {
-      toast.error('Please agree to the terms and conditions');
-      return;
-    }
-
-    if (!formData.grade) {
-      toast.error('Please select your grade/year');
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
-
-    setLoading(true);
-
-    const { firstName, lastName } = splitName(formData.fullName);
-    const notes = [
-      `School: ${formData.school}`,
-      `Grade: ${formData.grade}`,
-    ].join('\n');
-    const { error: regError } = await supabase.rpc('register_participant', {
-      _first_name: firstName,
-      _last_name: lastName,
-      _email: formData.email,
-      _password: formData.password,
-      _delegation_type: formData.delegationType,
-      _preferred_country: null,
-      _preferred_institution: formData.delegationType === 'institution' ? formData.preferredInstitution : null,
-      _committee_preference: formData.committeePreference || null,
-      _notes: notes,
-    });
-
-    if (regError) {
-      console.error('Registration error:', regError);
-      toast.error(formatRegistrationError(regError));
-      setLoading(false);
-      return;
-    } else {
-      toast.success('Registration submitted successfully! You can login now.');
-      navigate('/login');
-    }
-
-    setLoading(false);
-  };
+  const hasEmbed = !conferenceConfig.registration.googleFormEmbedUrl.includes('REPLACE_WITH_FINAL_FORM_ID');
 
   return (
     <Layout>
-      <PageHeader
-        title="Register for MWEF"
-        subtitle="Join Dubai's premier economics competition and develop real-world policy-making skills."
-      />
+      <PageHeader title="Register for MWEF" subtitle="Complete the registration Google Form below. Your system account is provisioned automatically after submission." />
 
       <section className="py-20 bg-background">
-        <div className="section-container">
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Registration Form */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="lg:col-span-2"
-            >
-              <form
-                onSubmit={handleSubmit}
-                className="bg-card border border-border rounded-lg p-6 md:p-8"
-                style={{ boxShadow: 'var(--shadow-card)' }}
-              >
-                <h2 className="text-2xl font-bold text-foreground mb-6">Participant Registration</h2>
-
-                {/* Personal Info */}
-                <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <User className="text-accent" size={20} />
-                    Personal Information
-                  </h3>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="form-label">Full Name *</label>
-                      <input
-                        type="text"
-                        className="form-input"
-                        value={formData.fullName}
-                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                        required
-                        placeholder="Your full name"
-                      />
-                    </div>
-                    <div>
-                      <label className="form-label">Email Address *</label>
-                      <input
-                        type="email"
-                        className="form-input"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        required
-                        placeholder="participant@example.com"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-4 mt-4">
-                    <div>
-                      <label className="form-label flex items-center gap-2">
-                        <Lock size={16} className="text-accent" />
-                        Password *
-                      </label>
-                      <div className="relative">
-                        <input
-                          type={showPassword ? 'text' : 'password'}
-                          className="form-input pr-12"
-                          value={formData.password}
-                          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                          required
-                          placeholder="Create a password"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword((prev) => !prev)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                          aria-label={showPassword ? 'Hide password' : 'Show password'}
-                        >
-                          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                        </button>
-                      </div>
-                    </div>
-                    <div>
-                      <label className="form-label flex items-center gap-2">
-                        <Lock size={16} className="text-accent" />
-                        Confirm Password *
-                      </label>
-                      <div className="relative">
-                        <input
-                          type={showConfirmPassword ? 'text' : 'password'}
-                          className="form-input pr-12"
-                          value={formData.confirmPassword}
-                          onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                          required
-                          placeholder="Re-enter your password"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowConfirmPassword((prev) => !prev)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                          aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
-                        >
-                          {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* School Info */}
-                <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <School className="text-accent" size={20} />
-                    School Information
-                  </h3>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="form-label">School Name *</label>
-                      <input
-                        type="text"
-                        className="form-input"
-                        value={formData.school}
-                        onChange={(e) => setFormData({ ...formData, school: e.target.value })}
-                        required
-                        placeholder="Your school name"
-                      />
-                    </div>
-                    <div>
-                      <label className="form-label">Grade/Year *</label>
-                      <SearchableSelect
-                        value={formData.grade}
-                        onValueChange={(value) => setFormData({ ...formData, grade: value })}
-                        options={gradeOptions}
-                        placeholder="Select grade"
-                        searchPlaceholder="Search grade"
-                        emptyMessage="No grades found."
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Delegation Preferences */}
-                <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <Globe className="text-accent" size={20} />
-                    Delegation Preferences
-                  </h3>
-                  <div>
-                    <label className="form-label">Preferred Institution</label>
-                    <SearchableSelect
-                      value={formData.preferredInstitution}
-                      onValueChange={(value) => setFormData({ ...formData, preferredInstitution: value })}
-                      options={institutionOptions}
-                      placeholder="Select institution preference"
-                      searchPlaceholder="Search institutions"
-                      emptyMessage="No institutions found."
-                    />
-                  </div>
-                </div>
-
-                {/* Committee Preference */}
-                <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <BookOpen className="text-accent" size={20} />
-                    Committee Preference
-                  </h3>
-                  <div>
-                    <label className="form-label">Preferred Committee</label>
-                    <SearchableSelect
-                      value={formData.committeePreference}
-                      onValueChange={(value) => setFormData({ ...formData, committeePreference: value })}
-                      options={committeeOptions}
-                      placeholder="Select committee preference"
-                      searchPlaceholder="Search committees"
-                      emptyMessage="No committees found."
-                    />
-                  </div>
-                </div>
-
-                {/* Terms */}
-                <div className="mb-8">
-                  <label className="flex items-start gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="mt-1"
-                      checked={formData.agreeTerms}
-                      onChange={(e) => setFormData({ ...formData, agreeTerms: e.target.checked })}
-                    />
-                    <span className="text-sm text-muted-foreground">
-                      I agree to the MWEF Code of Conduct and understand that my registration is subject to availability and final approval by the organizing committee.
-                    </span>
-                  </label>
-                </div>
-
-                <button 
-                  type="submit" 
-                  disabled={loading}
-                  className="w-full btn-primary text-lg py-4 flex items-center justify-center gap-2"
-                >
-                  {loading ? 'Submitting...' : (
-                    <>
-                      Submit Registration
-                      <ArrowRight size={20} />
-                    </>
-                  )}
-                </button>
-              </form>
-            </motion.div>
-
-            {/* Sidebar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="space-y-6"
-            >
-              {/* Registration Fee */}
-              <div
-                className="bg-card border border-border rounded-lg p-6"
-                style={{ boxShadow: 'var(--shadow-card)' }}
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <CreditCard className="text-accent" size={24} />
-                  <h3 className="text-xl font-semibold text-foreground">Registration Fee</h3>
-                </div>
-                <div className="text-3xl font-bold text-primary mb-2">AED 30</div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Payment will be collected after registration approval.
-                </p>
-                <div className="text-xs text-muted-foreground border-t border-border pt-4">
-                  Fee includes conference materials, refreshments, and certificate of participation.
-                </div>
+        <div className="section-container grid lg:grid-cols-3 gap-10">
+          <div className="lg:col-span-2 bg-card border border-border rounded-lg p-4 md:p-6" style={{ boxShadow: 'var(--shadow-card)' }}>
+            <h2 className="text-2xl font-bold text-foreground mb-4">Participant Registration Form</h2>
+            {hasEmbed ? (
+              <iframe
+                title="MWEF Registration Google Form"
+                src={conferenceConfig.registration.googleFormEmbedUrl}
+                className="w-full min-h-[1200px] rounded-md border border-border"
+                loading="lazy"
+              />
+            ) : (
+              <div className="rounded-md border border-dashed border-border p-8 text-center text-muted-foreground">
+                <p className="mb-3">Google Form embed URL is not configured yet.</p>
+                <p className="text-sm">Update <code>conferenceConfig.registration.googleFormEmbedUrl</code> to go live.</p>
               </div>
-
-              {/* What's Included */}
-              <div
-                className="bg-card border border-border rounded-lg p-6"
-                style={{ boxShadow: 'var(--shadow-card)' }}
-              >
-                <h3 className="text-lg font-semibold text-foreground mb-4">What's Included</h3>
-                <ul className="space-y-3">
-                  {[
-                    'Full conference access',
-                    'Committee participation',
-                    'Conference materials',
-                    'Refreshments',
-                    'Certificate of participation',
-                    'Award eligibility',
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <CheckCircle className="text-accent flex-shrink-0" size={16} />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Important Dates */}
-              <div
-                className="bg-primary text-white rounded-lg p-6"
-              >
-                <h3 className="text-lg font-semibold mb-4 text-white">Important Dates</h3>
-                <ul className="space-y-3 text-sm">
-                  <li className="flex justify-between">
-                    <span className="text-white/70">Conference Date</span>
-                    <span className="font-medium">21 Feb 2026</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="text-white/70">Registration Deadline</span>
-                    <span className="font-medium">TBA</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="text-white/70">Assignment Release</span>
-                    <span className="font-medium">TBA</span>
-                  </li>
-                </ul>
-              </div>
-            </motion.div>
+            )}
           </div>
+
+          <aside className="space-y-6">
+            <div className="bg-card border border-border rounded-lg p-6" style={{ boxShadow: 'var(--shadow-card)' }}>
+              <h3 className="text-lg font-semibold text-foreground mb-3">What happens after you submit?</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground list-disc pl-4">
+                <li>Your registration is synced to the system dashboard.</li>
+                <li>An account setup email is sent to your registered email address.</li>
+                <li>Status and assignments are shared through your dashboard.</li>
+              </ul>
+            </div>
+
+            <div className="bg-primary text-primary-foreground rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-4">Event Snapshot</h3>
+              <ul className="space-y-3 text-sm">
+                <li className="flex justify-between"><span className="text-white/70">Date</span><span className="font-medium">{conferenceConfig.eventDateLabel}</span></li>
+                <li className="flex justify-between"><span className="text-white/70">Location</span><span className="font-medium">{conferenceConfig.locationName}</span></li>
+                <li className="flex justify-between"><span className="text-white/70">Time</span><span className="font-medium">{conferenceConfig.eventTimeLabel}</span></li>
+              </ul>
+              <a href={conferenceConfig.locationMapUrl} target="_blank" rel="noreferrer" className="inline-flex mt-4 text-sm items-center gap-1 underline underline-offset-4">
+                Open map <ExternalLink size={14} />
+              </a>
+            </div>
+          </aside>
         </div>
       </section>
     </Layout>
