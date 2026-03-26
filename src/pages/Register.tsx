@@ -4,7 +4,7 @@ import { conferenceConfig } from '@/data/conference';
 import { ExternalLink } from 'lucide-react';
 
 const Register = () => {
-  const hasEmbed = !conferenceConfig.registration.googleFormEmbedUrl.includes('REPLACE_WITH_FINAL_FORM_ID');
+  const hasEmbed = !conferenceConfig.registration.googleFormEmbedUrl.includes('https://forms.gle/EZ3eH9MqnGaXAYZi8');
 
   return (
     <Layout>
@@ -17,14 +17,13 @@ const Register = () => {
             {hasEmbed ? (
               <iframe
                 title="MWEF Registration Google Form"
-                src={conferenceConfig.registration.googleFormEmbedUrl}
+                src="https://docs.google.com/forms/d/e/1FAIpQLSfuX7G0jBLOY7y55mCI0763STLRizXMrg4WqBhPrIHJA4vlXQ/viewform?hl=en"
                 className="w-full min-h-[1200px] rounded-md border border-border"
-                loading="lazy"
               />
             ) : (
               <div className="rounded-md border border-dashed border-border p-8 text-center text-muted-foreground">
                 <p className="mb-3">Google Form embed URL is not configured yet.</p>
-                <p className="text-sm">Update <code>conferenceConfig.registration.googleFormEmbedUrl</code> to go live.</p>
+                <p className="text-sm">Update to go live.</p>
               </div>
             )}
           </div>
