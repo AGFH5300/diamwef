@@ -21,6 +21,8 @@ const Dashboard = () => {
   const [registration, setRegistration] = useState<Registration | null>(null);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loadingReg, setLoadingReg] = useState(true);
+  const [loadingAnnouncements, setLoadingAnnouncements] = useState(true);
+  const [announcementError, setAnnouncementError] = useState<string | null>(null);
 
   const { schoolName, gradeLevel } = useMemo(() => {
     const lines = registration?.notes?.split('\n') ?? [];
@@ -34,8 +36,10 @@ const Dashboard = () => {
       if (!user?.email) return;
       const { data: regData } = await supabase.rpc('get_participant_registration', { _email: user.email });
       setRegistration((regData?.[0] as Registration) ?? null);
-      const { data: announcementData } = await supabase.from('announcements').select('*').eq('is_active', true).order('pinned', { ascending: false }).order('published_at', { ascending: false });
+      const { data: announcementData, error: announcementFetchError } = await supabase.from('announcements').select('*').eq('is_active', true).order('pinned', { ascending: false }).order('published_at', { ascending: false });
+      if (announcementFetchError) setAnnouncementError('Unable to load announcements right now.');
       setAnnouncements((announcementData ?? []) as Announcement[]);
+      setLoadingAnnouncements(false);
       setLoadingReg(false);
     };
     void fetchData();
@@ -63,7 +67,7 @@ const Dashboard = () => {
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-card border border-border rounded-lg p-6" style={{ boxShadow: 'var(--shadow-card)' }}>
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2"><Megaphone className="text-accent" size={20} />Announcements</h2>
-              {announcements.length === 0 ? <div className="text-sm text-muted-foreground rounded-md bg-secondary p-4">No announcements yet. Check back soon.</div> : <div className="space-y-4">{announcements.map((a) => <div key={a.id} className="border border-border rounded-md p-4"><div className="flex items-center justify-between gap-2"><h3 className="font-semibold">{a.title}</h3>{a.pinned && <span className="text-xs px-2 py-1 rounded-full bg-accent/20 text-accent">Pinned</span>}</div><p className="text-sm text-muted-foreground mt-2 whitespace-pre-line">{a.body}</p><div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>{new Date(a.published_at || a.created_at).toLocaleDateString()}</span>{a.cta_link && <a href={a.cta_link} target="_blank" rel="noreferrer" className="text-accent hover:underline">Learn more</a>}</div></div>)}</div>}
+              {loadingAnnouncements ? <div className="text-sm text-muted-foreground rounded-md bg-secondary p-4">Loading announcements...</div> : announcementError ? <div className="text-sm text-destructive rounded-md bg-destructive/5 p-4">{announcementError}</div> : announcements.length === 0 ? <div className="text-sm text-muted-foreground rounded-md bg-secondary p-4">No announcements yet. Check back soon.</div> : <div className="space-y-4">{announcements.map((a) => <div key={a.id} className="border border-border rounded-md p-4"><div className="flex items-center justify-between gap-2"><h3 className="font-semibold">{a.title}</h3>{a.pinned && <span className="text-xs px-2 py-1 rounded-full bg-accent/20 text-accent">Pinned</span>}</div><p className="text-sm text-muted-foreground mt-2 whitespace-pre-line">{a.body}</p><div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>{new Date(a.published_at || a.created_at).toLocaleDateString()}</span>{a.cta_link && <a href={a.cta_link} target="_blank" rel="noreferrer" className="text-accent hover:underline">Learn more</a>}</div></div>)}</div>}
             </motion.div>
           </div>
 

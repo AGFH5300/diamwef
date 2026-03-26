@@ -27,7 +27,6 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import AdminOverview from "./pages/admin/AdminOverview";
 import AdminParticipants from "./pages/admin/AdminParticipants";
 import AdminPartnerships from "./pages/admin/AdminPartnerships";
-import AdminVolunteers from "./pages/admin/AdminVolunteers";
 import AdminSettings from "./pages/admin/AdminSettings";
 
 import SystemLogin from "./pages/system/SystemLogin";
@@ -60,6 +59,7 @@ const App = () => (
           <Route path="/committees" element={<Committees />} />
           <Route path="/committees/:id" element={<CommitteeDetail />} />
           <Route path="/conference" element={<Conference />} />
+          <Route path="/partnerships" element={<GetInvolved />} />
           <Route path="/get-involved" element={<GetInvolved />} />
 
           <Route path="/register" element={<Register />} />
@@ -72,7 +72,6 @@ const App = () => (
             <Route index element={<AdminOverview />} />
             <Route path="participants" element={<AdminParticipants />} />
             <Route path="partnerships" element={<AdminPartnerships />} />
-            <Route path="volunteers" element={<AdminVolunteers />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
 

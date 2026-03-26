@@ -93,6 +93,26 @@ const About = () => {
         </div>
       </section>
 
+      <section className="py-20 bg-background">
+        <div className="section-container">
+          <SectionHeader
+            title="Conference Structure"
+            subtitle="Based on the official debate-format brief."
+          />
+          <div className="bg-card border border-border rounded-xl p-6 md:p-8">
+            <p className="text-muted-foreground mb-4">{conferenceConfig.conferenceStructure.summary}</p>
+            <ul className="space-y-2">
+              {conferenceConfig.conferenceStructure.details.map((item) => (
+                <li key={item} className="flex gap-3 text-sm text-foreground">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 bg-secondary pt-0">
         <div className="section-container">
           <div className="grid lg:grid-cols-3 gap-8">

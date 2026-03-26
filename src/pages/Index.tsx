@@ -83,10 +83,10 @@ const Index = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">What is MWEF?</h2>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  The Model World Economic Forum (MWEF) is a platform where economic theory meets real-world policy-making. Delegates are challenged to confront complex issues, evaluate trade-offs, and design practical policy solutions.
+                  The Model World Economic Forum (MWEF) is a platform where economic theory meets real-world policy-making. Participants are challenged to confront complex issues, evaluate trade-offs, and design practical policy solutions.
                 </p>
                 <p>
-                  MWEF brings together delegates from across {conferenceConfig.schoolCountLabel} schools through structured debate, strategic collaboration, and evidence-based policy formulation.
+                  MWEF brings together participants from across {conferenceConfig.schoolCountLabel} schools through structured debate, strategic collaboration, and evidence-based policy formulation.
                 </p>
               </div>
               <Link to="/about" className="inline-flex items-center gap-2 text-accent font-medium mt-6 hover:gap-3 transition-all">

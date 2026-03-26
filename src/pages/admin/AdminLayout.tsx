@@ -6,7 +6,6 @@ import {
   LayoutDashboard, 
   Users, 
   Building2, 
-  UserCheck, 
   Settings,
   LogOut,
   ChevronLeft,
@@ -18,7 +17,6 @@ const navItems = [
   { name: 'Overview', path: '/admin', icon: LayoutDashboard },
   { name: 'Participants', path: '/admin/participants', icon: Users },
   { name: 'Partnerships', path: '/admin/partnerships', icon: Building2 },
-  { name: 'Volunteers', path: '/admin/volunteers', icon: UserCheck },
   { name: 'Settings', path: '/admin/settings', icon: Settings },
 ];
 

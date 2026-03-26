@@ -14,11 +14,11 @@ export const Footer = () => {
           </div>
           <div>
             <h4 className="font-semibold text-lg mb-4 text-accent">Quick Links</h4>
-            <ul className="space-y-2">{[{ name: 'About MWEF', path: '/about' }, { name: 'Committees', path: '/committees' }, { name: 'Conference Structure', path: '/conference' }, { name: 'Register', path: '/register' }].map((link) => <li key={link.path}><Link to={link.path} className="text-white/70 hover:text-white transition-colors text-sm">{link.name}</Link></li>)}</ul>
+            <ul className="space-y-2">{[{ name: 'About MWEF', path: '/about' }, { name: 'Committees', path: '/resources/committees' }, { name: 'Conference Structure', path: '/about/conference' }, { name: 'Register', path: '/register' }].map((link) => <li key={link.path}><Link to={link.path} className="text-white/70 hover:text-white transition-colors text-sm">{link.name}</Link></li>)}</ul>
           </div>
           <div>
             <h4 className="font-semibold text-lg mb-4 text-accent">Resources</h4>
-            <ul className="space-y-2">{[{ name: 'Participant Resources', path: '/resources' }, { name: 'Partnerships', path: '/get-involved' }].map((link) => <li key={link.path}><Link to={link.path} className="text-white/70 hover:text-white transition-colors text-sm">{link.name}</Link></li>)}</ul>
+            <ul className="space-y-2">{[{ name: 'Participant Resources', path: '/resources' }, { name: 'Partnerships', path: '/partnerships' }].map((link) => <li key={link.path}><Link to={link.path} className="text-white/70 hover:text-white transition-colors text-sm">{link.name}</Link></li>)}</ul>
           </div>
           <div>
             <h4 className="font-semibold text-lg mb-4 text-accent">Contact</h4>

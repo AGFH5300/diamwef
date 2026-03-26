@@ -2,30 +2,23 @@ import { motion } from 'framer-motion';
 import { Layout } from '@/components/layout/Layout';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { FileEdit, MessageSquare, AlertTriangle, Award, Clock, Users } from 'lucide-react';
+import { FileEdit, MessageSquare, Award, Clock, Users } from 'lucide-react';
 
 const AboutConference = () => {
   const rounds = [
     {
       number: 1,
-      title: 'Solution Proposal Round',
+      title: 'Policy Development Round',
       icon: FileEdit,
-      description: 'One large global economic problem per committee. Each participant is assigned a distinct stakeholder.',
-      details: ['Participants submit a typed policy proposal document', 'Evaluation based on economic reasoning', 'Feasibility and cost–benefit analysis assessed', 'Trade-off awareness and policy clarity evaluated'],
+      description: 'Each committee addresses one economic crisis and participants draft stakeholder policy solutions.',
+      details: ['Chairs share a research report and briefing context', 'Morning session focuses on policy drafting and trade-off analysis', 'Participants build practical policy proposals with evidence', 'Committees typically operate at around 20 participants'],
     },
     {
       number: 2,
-      title: 'Debate Round',
+      title: 'Debate Spar Rounds',
       icon: MessageSquare,
-      description: 'Committee-specific economic scenarios where participants choose For or Against positions.',
-      details: ['Team preparation phase', 'Structured 5 vs 5 debate format', 'Chairs award Committee Winner', 'Best Speaker of Conference recognized'],
-    },
-    {
-      number: 3,
-      title: 'Crisis & POI Round',
-      icon: AlertTriangle,
-      description: 'Staff introduce intentionally uneconomic or irrational statements for participants to challenge.',
-      details: ['Participants respond with Points of Information', 'Tests economic intuition and logical correction', 'Speed of reasoning assessed', 'Critical thinking under pressure'],
+      description: 'Participants move into WSDC-inspired debate spars to test policies through argumentation.',
+      details: ['Participants split into Side 1 / Side 2', 'Group A / Group B format is used for balance', 'Two spars are run using a 30-minute timing structure', 'Chairs evaluate clarity, economics, and rebuttal quality'],
     },
   ];
 
@@ -49,7 +42,7 @@ const AboutConference = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="bg-card border border-border rounded-lg p-6 text-center" style={{ boxShadow: 'var(--shadow-card)' }}>
               <Award className="text-accent mx-auto mb-3" size={32} />
               <h3 className="font-semibold text-foreground mb-1">Style</h3>
-              <p className="text-2xl font-bold text-primary">Modified Economics MUN</p>
+              <p className="text-2xl font-bold text-primary">Economics Policy + Debate</p>
             </motion.div>
           </div>
         </div>
@@ -57,7 +50,7 @@ const AboutConference = () => {
 
       <section className="py-20 md:py-28 bg-background">
         <div className="section-container">
-          <SectionHeader title="Conference Rounds" subtitle="MWEF features three distinct rounds, each testing different aspects of economic reasoning and debate skills." center />
+          <SectionHeader title="Conference Rounds" subtitle="MWEF runs two core phases: policy development first, then WSDC-inspired debate spars." center />
           <p className="text-center text-muted-foreground max-w-3xl mx-auto mb-10">
             The conference begins with policy-making and solution proposals, then moves into WSDC-inspired debate
             rounds between participants to pressure-test those ideas.

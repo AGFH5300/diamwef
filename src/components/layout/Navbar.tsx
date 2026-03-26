@@ -11,7 +11,7 @@ const navItems: NavItem[] = [
   { name: 'Home', path: '/' },
   { name: 'About MWEF', children: [{ name: 'About Us', path: '/about' }, { name: 'Conference Structure', path: '/about/conference' }, { name: 'Our Secretariat', path: '/about/secretariat' }] },
   { name: 'Conference Resources', children: [{ name: 'Committees', path: '/resources/committees' }, { name: 'Participant Resources', path: '/resources' }, { name: 'Rules & Procedures', path: '/resources/rules' }] },
-  { name: 'Partnerships', path: '/get-involved' },
+  { name: 'Partnerships', path: '/partnerships' },
 ];
 
 export const Navbar = () => {

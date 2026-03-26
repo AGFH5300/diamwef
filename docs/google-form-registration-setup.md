@@ -29,7 +29,7 @@
 }
 ```
 
-Accepted aliases: `name`, `schoolName`, `year`, `preferredInstitution`, `preferredCountry`.
+Accepted aliases: `name`, `schoolName`, `year`, `stakeholder`.
 
 ## Google Forms / Apps Script connection
 1. Add an Apps Script attached to your response spreadsheet.
