@@ -1,4 +1,5 @@
 import { committees } from './committees';
+import { conferenceConfig } from './conference';
 
 export type ResourceStatus = 'available' | 'coming_soon';
 
@@ -13,28 +14,46 @@ export interface ResourceItem {
   status: ResourceStatus;
 }
 
-const resourceBaseUrl = 'https://modelwef.org/resources/pdfs';
-
 export const participantResources: ResourceItem[] = [
   {
-    id: 'rules',
-    title: 'Conference Rules',
-    description: 'Complete rules and procedures for MWEF conference participation.',
+    id: 'debate-format',
+    title: 'Debate Format & Structure (waefw.pdf)',
+    description: 'Overview of policy-development-first flow followed by WSDC-inspired debate spars.',
     category: 'conference-doc',
     fileType: 'PDF',
-    link: `${resourceBaseUrl}/conference-rules.pdf`,
+    link: '/resources/waefw.pdf',
     status: 'coming_soon',
   },
   {
-    id: 'policy-handbook',
-    title: 'Solution & Policy Handbook',
-    description: 'Framework for developing and presenting policy proposals.',
+    id: 'pitch-deck',
+    title: 'MWEF Sponsorship Pitch Deck',
+    description: 'Sponsorship and partnership deck with visibility, branding, and engagement opportunities.',
+    category: 'conference-doc',
+    fileType: 'PPTX',
+    link: conferenceConfig.partnerships.pitchDeckUrl,
+    status: conferenceConfig.partnerships.pitchDeckUrl ? 'available' : 'coming_soon',
+  },
+  {
+    id: 'conference-rules',
+    title: 'Conference Rules (Placeholder)',
+    description: 'Rules and procedures for participants. Upload file to activate this download.',
     category: 'conference-doc',
     fileType: 'PDF',
-    link: `${resourceBaseUrl}/solution-policy-handbook.pdf`,
+    link: '/resources/conference-rules.pdf',
+    status: 'coming_soon',
+  },
+  {
+    id: 'code-of-conduct',
+    title: 'Code of Conduct (Placeholder)',
+    description: 'Expected standards for participant conduct, inclusion, and professionalism.',
+    category: 'conference-doc',
+    fileType: 'PDF',
+    link: '/resources/code-of-conduct.pdf',
     status: 'coming_soon',
   },
 ];
+
+const availableGuides: Record<string, string> = {};
 
 export const committeeBackgroundGuides: ResourceItem[] = committees.map((committee) => ({
   id: `guide-${committee.id}`,
@@ -43,6 +62,6 @@ export const committeeBackgroundGuides: ResourceItem[] = committees.map((committ
   category: 'background-guide',
   committeeKey: committee.id,
   fileType: 'PDF',
-  link: '',
-  status: 'coming_soon',
+  link: availableGuides[committee.id] || '',
+  status: availableGuides[committee.id] ? 'available' : 'coming_soon',
 }));

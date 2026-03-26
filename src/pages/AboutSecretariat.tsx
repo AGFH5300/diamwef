@@ -21,7 +21,7 @@ const AboutSecretariat = () => {
           </div>
 
           <div>
-            <SectionHeader title="Executive Chairs" subtitle="Committee chairs and executive chairs (placeholder entries until final list from Jash)." center />
+            <SectionHeader title="Executive Chairs" subtitle="Committee chairs and co-chairs leading each forum." center />
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {executiveChairs.map((member, index) => (
                 <TeamMemberCard key={index} name={member.name} role={member.role} image={member.image} index={index} />

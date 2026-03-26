@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
     const email = String(body.email || '').toLowerCase();
     const school = String(body.school || body.schoolName || '');
     const grade = String(body.grade || body.year || '');
-    const stakeholder = String(body.stakeholder || body.preferredInstitution || body.preferredCountry || '');
+    const stakeholder = String(body.stakeholder || '');
 
     if (!email || !firstName) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
