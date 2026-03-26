@@ -6,16 +6,16 @@ import { BookOpen, FileText, Download, Shield, AlertTriangle, CheckCircle } from
 
 const ResourcesRules = () => {
   const codeOfConduct = [
-    { title: 'Professional Behavior', items: ['Treat all participants with respect', 'Maintain academic integrity', 'Follow chair instructions promptly', 'Dress appropriately (business formal)'] },
+    { title: 'Professional Behavior', items: ['Treat all participants with respect', 'Maintain academic integrity', 'Follow moderator instructions promptly', 'Dress appropriately (business formal)'] },
     { title: 'Debate Ethics', items: ['No personal attacks or ad hominem arguments', 'Base arguments on facts and logic', 'Accept defeat gracefully', 'Congratulate winners sincerely'] },
     { title: 'Venue Rules', items: ['Arrive on time for all sessions', 'Keep phones on silent', 'No food in committee rooms', 'Maintain cleanliness in all areas'] },
   ];
 
   const procedures = [
     { title: 'Points of Information', desc: 'Used in Round 3 to challenge uneconomic statements with logical corrections.' },
-    { title: 'Motion to Extend', desc: 'Request additional speaking time from the chair (granted at discretion).' },
+    { title: 'Motion to Extend', desc: 'Request additional speaking time from the moderation team (granted at discretion).' },
     { title: 'Right of Reply', desc: 'Address misrepresentations of your position made by other participants.' },
-    { title: 'Suspension of Debate', desc: 'Temporary halt for caucus or break (requires chair approval).' },
+    { title: 'Suspension of Debate', desc: 'Temporary halt for caucus or break (requires moderator approval).' },
   ];
 
   return (

@@ -90,6 +90,17 @@ const About = () => {
               <ChevronRight size={18} />
             </button>
           </div>
+
+          <div className="mt-8 rounded-lg border border-border bg-card p-4 md:p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <p className="text-sm text-muted-foreground">
+              {conferenceConfig.instagram.officialApiEnabled
+                ? 'Instagram feed is configured in official API mode.'
+                : 'Live updates are currently shown from curated posts and can switch to official API mode via environment configuration.'}
+            </p>
+            <a href={conferenceConfig.instagram.profileUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-accent font-medium">
+              Visit @yessocietydia <ExternalLink size={14} />
+            </a>
+          </div>
         </div>
       </section>
 
@@ -109,6 +120,9 @@ const About = () => {
                 </li>
               ))}
             </ul>
+            <a href={conferenceConfig.conferenceStructure.source} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 mt-5 text-accent font-medium">
+              Download structure brief (PDF) <ExternalLink size={14} />
+            </a>
           </div>
         </div>
       </section>
