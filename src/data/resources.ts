@@ -17,12 +17,12 @@ export interface ResourceItem {
 export const participantResources: ResourceItem[] = [
   {
     id: 'debate-format',
-    title: 'Debate Format & Structure (waefw.pdf)',
-    description: 'Overview of policy-development-first flow followed by WSDC-inspired debate spars.',
+    title: 'Debate Format & Structure (structure.pdf)',
+    description: 'Official format overview: policy-development-first flow followed by WSDC-inspired debate spars.',
     category: 'conference-doc',
     fileType: 'PDF',
-    link: '/resources/waefw.pdf',
-    status: 'coming_soon',
+    link: '/resources/structure.pdf',
+    status: 'available',
   },
   {
     id: 'pitch-deck',

@@ -4,11 +4,11 @@ import { conferenceConfig } from '@/data/conference';
 import { ExternalLink } from 'lucide-react';
 
 const Register = () => {
-  const hasEmbed = !conferenceConfig.registration.googleFormEmbedUrl.includes('https://forms.gle/EZ3eH9MqnGaXAYZi8');
+  const hasEmbed = conferenceConfig.registration.googleFormEmbedUrl.includes('docs.google.com/forms');
 
   return (
     <Layout>
-      <PageHeader title="Register for MWEF" subtitle="Complete the registration Google Form below. Your system account is provisioned automatically after submission." />
+      <PageHeader title="Register for MWEF" subtitle="Complete the registration Google Form below. Your system profile is provisioned automatically after submission." />
 
       <section className="py-20 bg-background">
         <div className="section-container grid lg:grid-cols-3 gap-10">
@@ -17,13 +17,13 @@ const Register = () => {
             {hasEmbed ? (
               <iframe
                 title="MWEF Registration Google Form"
-                src="https://docs.google.com/forms/d/e/1FAIpQLSfuX7G0jBLOY7y55mCI0763STLRizXMrg4WqBhPrIHJA4vlXQ/viewform?hl=en"
+                src={conferenceConfig.registration.googleFormEmbedUrl}
                 className="w-full min-h-[1200px] rounded-md border border-border"
               />
             ) : (
               <div className="rounded-md border border-dashed border-border p-8 text-center text-muted-foreground">
                 <p className="mb-3">Google Form embed URL is not configured yet.</p>
-                <p className="text-sm">Update to go live.</p>
+                <p className="text-sm">Update src/data/conference.ts to go live.</p>
               </div>
             )}
           </div>
@@ -32,8 +32,9 @@ const Register = () => {
             <div className="bg-card border border-border rounded-lg p-6" style={{ boxShadow: 'var(--shadow-card)' }}>
               <h3 className="text-lg font-semibold text-foreground mb-3">What happens after you submit?</h3>
               <ul className="space-y-2 text-sm text-muted-foreground list-disc pl-4">
-                <li>Your registration is synced to the system dashboard.</li>
-                <li>An account setup email is sent to your registered email address.</li>
+                <li>Your registration is ingested via the Google Form webhook and synced to the system dashboard.</li>
+                <li>Your participant record is upserted by email to avoid duplicates.</li>
+                <li>You receive an MWEF setup/welcome email sent through Resend.</li>
                 <li>Status and assignments are shared through your dashboard.</li>
               </ul>
             </div>

@@ -14,7 +14,7 @@ export interface Committee {
 }
 
 const round1Template =
-  'Morning policy development session. Participants analyze one defined economic crisis, review the chair research report, and draft stakeholder-backed policy proposals.';
+  'Morning policy development session. Participants analyze one defined economic crisis, review the committee research brief, and draft stakeholder-backed policy proposals.';
 const round2Template =
   'WSDC-inspired debate spars follow policy drafting. Participants are split into Side 1/Side 2 and Group A/Group B with two structured 30-minute spars.';
 

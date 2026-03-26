@@ -15,6 +15,8 @@ export interface InstagramPost {
   date: string;
 }
 
+export type InstagramIntegrationMode = 'curated' | 'official_api';
+
 export const conferenceConfig = {
   name: 'Model World Economic Forum',
   shortName: 'MWEF',
@@ -34,12 +36,12 @@ export const conferenceConfig = {
   aboutCopy:
     'The Model World Economic Forum (MWEF) is Dubai’s premiere student-led economics conference, hosted at Dubai International Academy. Expected to bring together over 250 participants from Years 7–12 across schools, MWEF provides a platform for students to engage with real-world economic challenges through debate, collaboration, and policy design. Inspired by global economic institutions, the conference allows participants to step into the roles of policymakers, economists, business leaders, and international stakeholders to explore how economic decisions shape the world around us.\n\nWhat makes MWEF especially meaningful is that the strongest policy proposals may be shared with ministries in Asia and Europe, giving you the chance to have your work actually looked at and implemented with your stamp on it. It is designed for ambitious middle and high school students who are curious, thoughtful, and excited by economics.',
   conferenceStructure: {
-    source: 'waefw.pdf',
+    source: '/resources/structure.pdf',
     summary:
-      'Each committee addresses one economic crisis. Chairs provide a research report, then participants complete a morning policy development phase before moving into two WSDC-inspired debate spars.',
+      'Each committee addresses one economic crisis, then participants complete a morning policy development phase before moving into two WSDC-inspired debate spars.',
     details: [
       'Each committee tackles one defined economic crisis or policy issue.',
-      'Chairs prepare and share a research report before committee work begins.',
+      'Participants receive a committee briefing packet before committee work begins.',
       'Morning sessions focus on policy development and proposal drafting.',
       'Committees typically operate with around 20 participants.',
       'Debate stage uses Side 1/Side 2 and Group A/Group B splits.',
@@ -49,7 +51,7 @@ export const conferenceConfig = {
   contactEmail: 'modelwef@gmail.com',
   registration: {
     googleFormEmbedUrl:
-      'https://docs.google.com/forms/d/e/REPLACE_WITH_FINAL_FORM_ID/viewform?embedded=true',
+      'https://docs.google.com/forms/d/e/1FAIpQLSfuX7G0jBLOY7y55mCI0763STLRizXMrg4WqBhPrIHJA4vlXQ/viewform?embedded=true',
     webhookPath: '/functions/v1/google-form-registration-webhook',
     statusLabel: 'Open',
   },
@@ -62,6 +64,11 @@ export const conferenceConfig = {
       'CSR-aligned support for economics education and youth leadership.',
       'Instagram and event impression visibility through campaign coverage.',
     ],
+  },
+  instagram: {
+    profileUrl: 'https://www.instagram.com/yessocietydia/',
+    integrationMode: (import.meta.env.VITE_INSTAGRAM_INTEGRATION_MODE as InstagramIntegrationMode | undefined) ?? 'curated',
+    officialApiEnabled: import.meta.env.VITE_INSTAGRAM_INTEGRATION_MODE === 'official_api',
   },
   foodNote: 'Food is available for purchase on-site and is not provided for free.',
   stats: [
@@ -91,8 +98,8 @@ export const missionVisionValues = [
 ];
 
 export const instagramPosts: InstagramPost[] = [
-  { id: 'ig-1', image: '/placeholder.svg', caption: 'Registration updates and reminders for participants.', link: 'https://instagram.com', date: '2026-01-20' },
-  { id: 'ig-2', image: '/placeholder.svg', caption: 'Committee announcements and background guide release timeline.', link: 'https://instagram.com', date: '2026-02-01' },
-  { id: 'ig-3', image: '/placeholder.svg', caption: 'Countdown to April 11 and key conference milestones.', link: 'https://instagram.com', date: '2026-02-15' },
-  { id: 'ig-4', image: '/placeholder.svg', caption: 'Preparation tips for policy development and debate spars.', link: 'https://instagram.com', date: '2026-03-03' },
+  { id: 'ig-1', image: '/placeholder.svg', caption: 'Registration updates and reminders for participants.', link: 'https://www.instagram.com/yessocietydia/', date: '2026-01-20' },
+  { id: 'ig-2', image: '/placeholder.svg', caption: 'Committee announcements and background guide release timeline.', link: 'https://www.instagram.com/yessocietydia/', date: '2026-02-01' },
+  { id: 'ig-3', image: '/placeholder.svg', caption: 'Countdown to April 11 and key conference milestones.', link: 'https://www.instagram.com/yessocietydia/', date: '2026-02-15' },
+  { id: 'ig-4', image: '/placeholder.svg', caption: 'Preparation tips for policy development and debate spars.', link: 'https://www.instagram.com/yessocietydia/', date: '2026-03-03' },
 ];

@@ -11,14 +11,14 @@ const AboutConference = () => {
       title: 'Policy Development Round',
       icon: FileEdit,
       description: 'Each committee addresses one economic crisis and participants draft stakeholder policy solutions.',
-      details: ['Chairs share a research report and briefing context', 'Morning session focuses on policy drafting and trade-off analysis', 'Participants build practical policy proposals with evidence', 'Committees typically operate at around 20 participants'],
+      details: ['Committee briefings are shared before sessions begin', 'Morning session focuses on policy drafting and trade-off analysis', 'Participants build practical policy proposals with evidence', 'Committees typically operate at around 20 participants'],
     },
     {
       number: 2,
       title: 'Debate Spar Rounds',
       icon: MessageSquare,
       description: 'Participants move into WSDC-inspired debate spars to test policies through argumentation.',
-      details: ['Participants split into Side 1 / Side 2', 'Group A / Group B format is used for balance', 'Two spars are run using a 30-minute timing structure', 'Chairs evaluate clarity, economics, and rebuttal quality'],
+      details: ['Participants split into Side 1 / Side 2', 'Group A / Group B format is used for balance', 'Two spars are run using a 30-minute timing structure', 'Evaluation focuses on clarity, economics, and rebuttal quality'],
     },
   ];
 
